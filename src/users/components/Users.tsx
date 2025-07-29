@@ -1,3 +1,30 @@
+import { useForm } from "react-hook-form";
+import { type Schema, schema } from "../types/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Stack, TextField } from "@mui/material";
+
 export function Users() {
-  return <div>Users</div>;
+  const {
+    register,
+    formState: { errors },
+  } = useForm<Schema>({
+    mode: "all",
+    resolver: zodResolver(schema),
+  });
+  return (
+    <Stack sx={{ gap: 2 }}>
+      <TextField
+        {...register("name")}
+        label="Name"
+        error={!!errors.name}
+        helperText={errors.name?.message}
+      />
+      <TextField
+        {...register("email")}
+        label="E-mail"
+        error={!!errors.email}
+        helperText={errors.email?.message}
+      />
+    </Stack>
+  );
 }
